@@ -26,10 +26,11 @@ def generate(device, model, test_dataloader, output_path):
     dataset = output_path.split('/')[-1]
     with torch.no_grad():
         for inputs, _, _, names in test_dataloader:
+            # moved these lines out from inner for loop because unnecessary
+            inputs = inputs.to(device)
+            shape_priors, _, _, _ = model(inputs)
+            shape_priors = shape_priors.cpu().numpy()
             for i, mask_name in enumerate(names):
-                inputs = inputs.to(device)
-                shape_priors, _, _, _ = model(inputs)
-                shape_priors = shape_priors.cpu().numpy()
                 if dataset=='shapenet':
                     folder_name = mask_name.split('/')[-3]
                     folder_path = os.path.join(output_path, folder_name)
