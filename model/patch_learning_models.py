@@ -78,7 +78,7 @@ class BasicBlock_large(nn.Module):
         return out
 
 class PatchLearningModel_fewshot_priors_3_encoder(nn.Module):
-    def __init__(self, use_batchnorm, device, channel_num, patch_res, truncation=3, input_res=32):
+    def __init__(self, use_batchnorm, device, channel_num, patch_res, truncation=3, input_res=32, project_root=''):
         super(PatchLearningModel_fewshot_priors_3_encoder, self).__init__()
         """
         :param use_batchnorm: whether use batchnorm or not
@@ -99,7 +99,7 @@ class PatchLearningModel_fewshot_priors_3_encoder(nn.Module):
         self._patch_res = patch_res
         self._patch_num_edge = int(input_res / self._patch_res)
         # prior path
-        self._priors_path = 'priors'
+        self._priors_path = os.path.join(project_root, 'priors')
         self._truncation = truncation
 
         if self._patch_res == 32:
